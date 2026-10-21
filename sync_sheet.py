@@ -7,6 +7,12 @@ except for five tabs that are maintained by hand and must never be touched.
 
     Usage:  /Users/mochakam/.pyenv/versions/3.10.13/bin/python3 sync_sheet.py
 
+The reverse direction lives in sync_from_sheet.py: Mocha edits the 行程時間表 tab
+in the Sheet and that script pulls it back down into index.html.  Only that one
+tab round-trips; the other three are generated here and hand edits to them are
+lost on the next run.  The two scripts overwrite each other, so edit in ONE
+place at a time.
+
 Auth (the only path that works — see the notes below):
   * ADC must be a Google account that holds roles/iam.serviceAccountTokenCreator
     on the SA below.  `gcloud auth application-default login` once is enough.
@@ -60,7 +66,8 @@ def build(D):
         return ''
 
     timetable = [
-        ['', '6 日 5 夜｜2026 濟州自駕（由 index.html 生成・%s）' % CHECKED],
+        ['', '6 日 5 夜｜2026 濟州自駕　⇄ 呢個 tab 可以直接改，'
+             '改完行 sync_from_sheet.py 寫返落 index.html'],
         ['時段'] + [hdr[d['date']] for d in days],
         ['路線'] + [d['route'] for d in days],
     ]
